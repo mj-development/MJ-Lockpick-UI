@@ -1,0 +1,17 @@
+
+
+
+
+Config.LockPickDoorEvent = function()
+    loadAnimDict("veh@break_in@0h@p_m_one@")
+    TaskPlayAnim(PlayerPedId(), "veh@break_in@0h@p_m_one@", "low_force_entry_ds", 3.0, 3.0, -1, 16, 0, 0, 0, 0)
+    exports['ps-ui']:Circle(function(success)
+        if success then
+            LockpickFinishCallback(success)
+        else
+            exports['ps-dispatch']:CarBoosting(vehicle)
+            TriggerServerEvent('hud:server:GainStress', math.random(1, 4))
+            TriggerEvent("QBCore:Notify", "You failed to lockpick.", "error")
+        end
+    end, 4, 8) -- NumberOfCircles, MS
+end
